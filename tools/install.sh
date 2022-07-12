@@ -143,16 +143,16 @@ function detect_existing_webcamd {
     if  [ -x "/usr/local/bin/webcamd" ] && [ -d "${HOME}/mjpg-streamer" ]; then
         detect_msg
         read -rp "Do you want to remove existing 'webcamd'? (YES/NO) " remove
-        if [ "${remove}" = "YES" ]; then
+#         if [ "${remove}" = "YES" ]; then
             echo -en "\nStopping webcamd.service ...\r"
             sudo systemctl stop webcamd.service &> /dev/null
             echo -e "Stopping webcamd.service ... \t[OK]\r"
             remove_existing_webcamd
-        else
-            echo -e "\nYou answered '${remove}'! Installation will be aborted..."
-            echo -e "GoodBye...\n"
-            exit 1
-        fi
+#         else
+#             echo -e "\nYou answered '${remove}'! Installation will be aborted..."
+#             echo -e "GoodBye...\n"
+#             exit 1
+#         fi
     fi
 }
 
@@ -273,15 +273,15 @@ function install_crowsnest {
     if [ "${UNATTENDED}" != "true" ] &&
     [ "${CROWSNEST_ADD_CROWSNEST_MOONRAKER}" != "0" ]; then
         read -rp "Do you want to add [update_manager] entry?(y/n) " addconf
-        case "${addconf}" in
-            y*|Y*)
+#         case "${addconf}" in
+#             y*|Y*)
                 add_update_entry
-            ;;
-
-            n*|N*)
-                echo -e "Adding Crowsnest Update Manager entry to moonraker.conf ... [SKIPPED]"
-            ;;
-        esac
+#             ;;
+# 
+#             n*|N*)
+#                 echo -e "Adding Crowsnest Update Manager entry to moonraker.conf ... [SKIPPED]"
+#             ;;
+#         esac
     fi
 
     ## add $USER to group video
