@@ -15,8 +15,8 @@
 
 # Paths
 USTREAMER_PATH = ustreamer
-USTREAMER_REPO = https://github.com/pikvm/ustreamer.git
-USTREAMER_OMX_BRANCH = 61ab2a8
+USTREAMER_REPO = https://github.com/kluoyun/ustreamer.git
+USTREAMER_OMX_BRANCH = 7085fea
 ARCH = $(shell uname -m)
 RTSP_PATH = rtsp-simple-server
 RTSP_ARCH = $(shell uname -m | cut -c '-5' | sed 's/x86_6/amd64/;s/aarch/arm64v8/')
