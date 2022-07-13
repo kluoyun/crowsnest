@@ -299,16 +299,16 @@ function install_crowsnest {
 
 function clone_ustreamer {
     ## remove bin/ustreamer if exist
-    if [ -d bin/ustreamer ]; then
-        rm -rf bin/ustreamer
+    if [ -d ${HOME_}/crowsnest/bin/ustreamer ]; then
+        rm -rf ${HOME_}/crowsnest/bin/ustreamer
     fi
     git clone "${CROWSNEST_USTREAMER_REPO_SHIP}" \
-    -b "${CROWSNEST_USTREAMER_REPO_BRANCH}" bin/ustreamer
+    -b "${CROWSNEST_USTREAMER_REPO_BRANCH}" ${HOME_}/crowsnest/bin/ustreamer
     ## Buster workaround
     ## ustreamer support omx only till version 4.13
     ## so stick to that version
     if [ "$(get_os_version buster)" != "0" ]; then
-        pushd bin/ustreamer &> /dev/null || exit 1
+        pushd ${HOME_}/crowsnest/bin/ustreamer &> /dev/null || exit 1
         git reset --hard 61ab2a8
         popd &> /dev/null || exit 1
     fi
@@ -322,7 +322,7 @@ function build_apps {
     # shellcheck disable=2086
     sudo apt install --yes --no-install-recommends ${CROWSNEST_USTREAMER_DEPS} > /dev/null
     echo -e "Installing 'ustreamer' Dependencies ... [OK]"
-    pushd bin > /dev/null
+    pushd ${HOME_}/crowsnest/bin > /dev/null
     make all
     popd > /dev/null
 }
