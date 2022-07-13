@@ -10,13 +10,14 @@
 # shellcheck enable=require-variable-braces
 
 ## disabled SC2086 for some lines because there we want 'word splitting'
-su fly -c "echo mellow | sudo -S ls"
+
 # Exit on errors
 set -Ee
 
 # Global Vars
 BASE_USER=fly
 HOME_=/home/${BASE_USER}
+CROWSNEST_DEFAULT_CONF_DIR=${HOME_}/klipper_config
 TITLE="crowsnest - A Webcam Daemon for Raspberry Pi OS"
 
 ### Non root
