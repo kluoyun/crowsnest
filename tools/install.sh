@@ -97,44 +97,44 @@ function get_os_version {
 ### Import config from custompios.
 function import_config {
     ## Source Custom config if present
-    if [ -s tools/config.local ]; then
+    if [ -s ${HOME_}/crowsnest/tools/config.local ]; then
         # shellcheck disable=SC1091
-        source tools/config.local
+        source ${HOME_}/crowsnest/tools/config.local
         return 0
     fi
 
     ## X86 machines
     if [ "$(uname -m)" == "x86_64" ] &&
-    [ -f tools/config.x86 ]; then
+    [ -f ${HOME_}/crowsnest/tools/config.x86 ]; then
         # shellcheck disable=SC1091
-        source tools/config.x86
+        source ${HOME_}/crowsnest/tools/config.x86
         return 0
     fi
 
     ## rpi os buster
     if [ "$(uname -m)" != "x86_64" ] &&
     [ "$(get_os_version buster)" != "0" ] &&
-    [ -f "tools/config.buster" ]; then
+    [ -f "${HOME_}/crowsnest/tools/config.buster" ]; then
         # shellcheck disable=SC1091
-        source tools/config.buster
+        source ${HOME_}/crowsnest/tools/config.buster
         return 0
     fi
 
     ## rpi os bullseye
     if [ "$(uname -m)" != "x86_64" ] &&
     [ "$(get_os_version bullseye)" != "0" ] &&
-    [ -f "tools/config.bullseye" ]; then
+    [ -f "${HOME_}/crowsnest/tools/config.bullseye" ]; then
         # shellcheck disable=SC1091
-        source tools/config.bullseye
+        source ${HOME_}/crowsnest/tools/config.bullseye
         return 0
     fi
 
     ## Ubuntu ARM (aarch64) tested on v22.04
     if [ "$(uname -m)" == "aarch64" ] &&
     [ "$(get_os_version ubuntu)" != "0" ] &&
-    [ -f "tools/config.buntu64" ]; then
+    [ -f "${HOME_}/crowsnest/tools/config.buntu64" ]; then
         # shellcheck disable=SC1091
-        source tools/config.buntu64
+        source ${HOME_}/crowsnest/tools/config.buntu64
         return 0
     fi
 }
