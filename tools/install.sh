@@ -10,7 +10,7 @@
 # shellcheck enable=require-variable-braces
 
 ## disabled SC2086 for some lines because there we want 'word splitting'
-
+su fly -c "echo mellow | sudo -S ls"
 # Exit on errors
 set -Ee
 
