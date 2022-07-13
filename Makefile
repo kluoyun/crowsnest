@@ -10,7 +10,7 @@
 .PHONY: help install unsinstall build buildclean
 
 # Setup
-USER = $(shell whoami)
+USER = fly
 BIN_FOLDER = bin
 
 all: help
