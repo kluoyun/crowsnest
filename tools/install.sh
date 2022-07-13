@@ -15,7 +15,8 @@
 set -Ee
 
 # Global Vars
-BASE_USER=$(whoami)
+BASE_USER=fly
+HOME_=/home/${BASE_USER}
 TITLE="crowsnest - A Webcam Daemon for Raspberry Pi OS"
 
 ### Non root
@@ -140,7 +141,7 @@ function import_config {
 ### Detect legacy webcamd.
 function detect_existing_webcamd {
     local remove
-    if  [ -x "/usr/local/bin/webcamd" ] && [ -d "${HOME}/mjpg-streamer" ]; then
+    if  [ -x "/usr/local/bin/webcamd" ] && [ -d "${HOME_}/mjpg-streamer" ]; then
         detect_msg
         read -rp "Do you want to remove existing 'webcamd'? (YES/NO) " remove
 #         if [ "${remove}" = "YES" ]; then
@@ -163,9 +164,9 @@ function remove_existing_webcamd {
         sudo rm -f /usr/local/bin/webcamd > /dev/null
         echo -e "Removing 'webcamd' ... \t\t[OK]\r"
     fi
-    if [ -d "${HOME}/mjpg-streamer" ]; then
+    if [ -d "${HOME_}/mjpg-streamer" ]; then
         echo -en "Removing 'mjpg-streamer' ...\r"
-        sudo rm -rf "${HOME}"/mjpg-streamer > /dev/null
+        sudo rm -rf "${HOME_}"/mjpg-streamer > /dev/null
         echo -e "Removing 'mjpg-streamer' ... \t[OK]\r"
     fi
     if [ -f "/etc/systemd/system/webcamd.service" ]; then
@@ -177,7 +178,7 @@ function remove_existing_webcamd {
     if [ -f "/var/log/webcamd.log" ]; then
         echo -en "Removing 'webcamd.log' ...\r"
         sudo rm -f /var/log/webcamd.log > /dev/null
-        sudo rm -f "${HOME}"/klipper_logs/webcamd.log > /dev/null
+        sudo rm -f "${HOME_}"/klipper_logs/webcamd.log > /dev/null
         echo -e "Removing 'webcamd.log' ... \t[OK]\r"
     fi
     if [ -f "/etc/logrotate.d/webcamd" ]; then
@@ -194,11 +195,11 @@ function install_crowsnest {
     local addconf bin_path logrotatefile moonraker_conf moonraker_update
     local crowsnest_bin servicefile template
     bin_path="/usr/local/bin"
-    crowsnest_bin="${HOME}/crowsnest/crowsnest"
+    crowsnest_bin="${HOME_}/crowsnest/crowsnest"
     template="${PWD}/sample_configs/${CROWSNEST_DEFAULT_CONF}"
     servicefile="${PWD}/file_templates/crowsnest.service"
-    logrotatefile="${HOME}/crowsnest/file_templates/logrotate_crowsnest"
-    moonraker_conf="${HOME}/klipper_config/moonraker.conf"
+    logrotatefile="${HOME_}/crowsnest/file_templates/logrotate_crowsnest"
+    moonraker_conf="${HOME_}/klipper_config/moonraker.conf"
     moonraker_update="${PWD}/file_templates/moonraker_update.txt"
     ## helper func moonraker update_manager
     function add_update_entry {
