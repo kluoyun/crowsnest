@@ -197,11 +197,11 @@ function install_crowsnest {
     local crowsnest_bin servicefile template
     bin_path="/usr/local/bin"
     crowsnest_bin="${HOME_}/crowsnest/crowsnest"
-    template="${PWD}/sample_configs/${CROWSNEST_DEFAULT_CONF}"
-    servicefile="${PWD}/file_templates/crowsnest.service"
+    template="${HOME_}/crowsnest/sample_configs/${CROWSNEST_DEFAULT_CONF}"
+    servicefile="${HOME_}/crowsnest/file_templates/crowsnest.service"
     logrotatefile="${HOME_}/crowsnest/file_templates/logrotate_crowsnest"
     moonraker_conf="${HOME_}/klipper_config/moonraker.conf"
-    moonraker_update="${PWD}/file_templates/moonraker_update.txt"
+    moonraker_update="${HOME_}/crowsnest/file_templates/moonraker_update.txt"
     ## helper func moonraker update_manager
     function add_update_entry {
         if [ -f "${moonraker_conf}" ]; then
