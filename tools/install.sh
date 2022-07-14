@@ -375,7 +375,9 @@ if [ "${UNATTENDED}" != "true" ]; then
     detect_existing_webcamd
 fi
 echo -e "Running apt update first ..."
-sudo apt update
+sudo apt update <<EOF
+mellow
+EOF
 install_crowsnest
 build_apps
 if [ "${UNATTENDED}" != "true" ] &&
