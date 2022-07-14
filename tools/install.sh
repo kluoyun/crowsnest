@@ -38,7 +38,7 @@ fi
 function welcome_msg {
     echo -e "${TITLE}\n"
     echo -e "\tSome Parts of the Installer requires 'root' privileges."
-    echo -e "\tYou will be prompted for your 'sudo' password, if needed.\n"
+    echo -e "\tYou will be prompted for your 'echo "mellow" | sudo -S' password, if needed.\n"
 }
 
 function detect_msg {
@@ -147,7 +147,7 @@ function detect_existing_webcamd {
         read -rp "Do you want to remove existing 'webcamd'? (YES/NO) " remove
 #         if [ "${remove}" = "YES" ]; then
             echo -en "\nStopping webcamd.service ...\r"
-            sudo systemctl stop webcamd.service &> /dev/null
+            echo "mellow" | sudo -S systemctl stop webcamd.service &> /dev/null
             echo -e "Stopping webcamd.service ... \t[OK]\r"
             remove_existing_webcamd
 #         else
@@ -162,29 +162,29 @@ function detect_existing_webcamd {
 function remove_existing_webcamd {
     if [ -x "/usr/local/bin/webcamd" ]; then
         echo -en "Removing 'webcamd' ...\r"
-        sudo rm -f /usr/local/bin/webcamd > /dev/null
+        echo "mellow" | sudo -S rm -f /usr/local/bin/webcamd > /dev/null
         echo -e "Removing 'webcamd' ... \t\t[OK]\r"
     fi
     if [ -d "${HOME_}/mjpg-streamer" ]; then
         echo -en "Removing 'mjpg-streamer' ...\r"
-        sudo rm -rf "${HOME_}"/mjpg-streamer > /dev/null
+        echo "mellow" | sudo -S rm -rf "${HOME_}"/mjpg-streamer > /dev/null
         echo -e "Removing 'mjpg-streamer' ... \t[OK]\r"
     fi
     if [ -f "/etc/systemd/system/webcamd.service" ]; then
         echo -en "Removing 'webcamd.service' ...\r"
-        sudo systemctl disable webcamd.service &> /dev/null
-        sudo rm -f /etc/systemd/system/webcamd.service > /dev/null
+        echo "mellow" | sudo -S systemctl disable webcamd.service &> /dev/null
+        echo "mellow" | sudo -S rm -f /etc/systemd/system/webcamd.service > /dev/null
         echo -e "Removing 'webcamd.service' ... \t[OK]\r"
     fi
     if [ -f "/var/log/webcamd.log" ]; then
         echo -en "Removing 'webcamd.log' ...\r"
-        sudo rm -f /var/log/webcamd.log > /dev/null
-        sudo rm -f "${HOME_}"/klipper_logs/webcamd.log > /dev/null
+        echo "mellow" | sudo -S rm -f /var/log/webcamd.log > /dev/null
+        echo "mellow" | sudo -S rm -f "${HOME_}"/klipper_logs/webcamd.log > /dev/null
         echo -e "Removing 'webcamd.log' ... \t[OK]\r"
     fi
     if [ -f "/etc/logrotate.d/webcamd" ]; then
         echo -en "Removing 'webcamd' logrotate...\r"
-        sudo rm -f /etc/logrotate.d/webcamd > /dev/null
+        echo "mellow" | sudo -S rm -f /etc/logrotate.d/webcamd > /dev/null
         echo -e "Removing 'webcamd' logrotate ... \t[OK]\r"
     fi
     echo -e "\nOld 'webcamd' completly removed."
@@ -206,12 +206,12 @@ function install_crowsnest {
     function add_update_entry {
         if [ -f "${moonraker_conf}" ]; then
             echo -e "Adding [update_manager] entry ..."
-            sudo -u "${BASE_USER}" \
+            echo "mellow" | sudo -S -u "${BASE_USER}" \
             cp "${moonraker_conf}" "${moonraker_conf}.backup" &&
             cat "${moonraker_conf}" "${moonraker_update}" > /tmp/moonraker.conf &&
             cp -rf /tmp/moonraker.conf "${moonraker_conf}"
             if [ "${UNATTENDED}" == "true" ]; then
-                sudo rm -f "${moonraker_conf}.backup"
+                echo "mellow" | sudo -S rm -f "${moonraker_conf}.backup"
             fi
         else
             echo -e "moonraker.conf is missing ... [SKIPPED]"
@@ -221,46 +221,46 @@ function install_crowsnest {
     ## Install Dependencies
     echo -e "Installing 'crowsnest' Dependencies ..."
     # shellcheck disable=2086
-    sudo apt install --yes --no-install-recommends ${CROWSNEST_CROWSNEST_DEPS} > /dev/null
+    echo "mellow" | sudo -S apt install --yes --no-install-recommends ${CROWSNEST_CROWSNEST_DEPS} > /dev/null
     echo -e "Installing 'crowsnest' Dependencies ... [OK]"
     ## Link crowsnest to $PATH
     echo -en "Linking crowsnest ...\r"
-    sudo ln -sf "${crowsnest_bin}" "${bin_path}" > /dev/null
+    echo "mellow" | sudo -S ln -sf "${crowsnest_bin}" "${bin_path}" > /dev/null
     echo -e "Linking crowsnest ... [OK]\r"
     ## Copy crowsnest.conf
     # Make sure config directory exists!
     if [ ! -d "${CROWSNEST_DEFAULT_CONF_DIR}" ]; then
-        sudo -u "${BASE_USER}" mkdir -p "${CROWSNEST_DEFAULT_CONF_DIR}"
+        echo "mellow" | sudo -S -u "${BASE_USER}" mkdir -p "${CROWSNEST_DEFAULT_CONF_DIR}"
     fi
     # Make sure not to overwrite existing!
     if [ ! -f "${CROWSNEST_DEFAULT_CONF_DIR}/crowsnest.conf" ]; then
         echo -en "Copying crowsnest.conf ...\r"
-        sudo -u "${BASE_USER}" cp -rf "${template}" "${CROWSNEST_DEFAULT_CONF_DIR}"/crowsnest.conf
+        echo "mellow" | sudo -S -u "${BASE_USER}" cp -rf "${template}" "${CROWSNEST_DEFAULT_CONF_DIR}"/crowsnest.conf
         echo -e "Copying crowsnest.conf ... [OK]\r"
     fi
     ## Copy crowsnest.service
     echo -en "Copying crowsnest.service file ...\r"
-    sudo cp -rf "${servicefile}" /etc/systemd/system/crowsnest.service > /dev/null
+    echo "mellow" | sudo -S cp -rf "${servicefile}" /etc/systemd/system/crowsnest.service > /dev/null
     if [ ! "${BASE_USER}" == "pi" ]; then
-        sudo sed -i 's|pi|'"${BASE_USER}"'|g' /etc/systemd/system/crowsnest.service
+        echo "mellow" | sudo -S sed -i 's|pi|'"${BASE_USER}"'|g' /etc/systemd/system/crowsnest.service
     fi
     echo -e "Copying crowsnest.service file ... [OK]\r"
     ## Copy logrotate
     echo -en "Linking logrotate file ...\r"
-    sudo cp -rf "${logrotatefile}" /etc/logrotate.d/crowsnest
+    echo "mellow" | sudo -S cp -rf "${logrotatefile}" /etc/logrotate.d/crowsnest
     if [ ! "${BASE_USER}" == "pi" ]; then
-        sudo sed -i 's|pi|'"${BASE_USER}"'|g' /etc/logrotate.d/crowsnest
+        echo "mellow" | sudo -S sed -i 's|pi|'"${BASE_USER}"'|g' /etc/logrotate.d/crowsnest
     fi
     echo -e "Linking logrotate file ... [OK]\r"
     ## update systemd if not unattended
     if [ "${UNATTENDED}" == "false" ] && [ "$(stat -c %i /)" == "2" ]; then
         echo -en "Reload systemd to enable new deamon ...\r"
-        sudo systemctl daemon-reload
+        echo "mellow" | sudo -S systemctl daemon-reload
         echo -e "Reload systemd to enable new daemon ... [OK]"
     fi
     ## enable crowsnest.service
     echo -en "Enable crowsnest.service on boot ...\r"
-    sudo systemctl enable crowsnest.service
+    echo "mellow" | sudo -S systemctl enable crowsnest.service
     echo -e "Enable crowsnest.service on boot ... [OK]\r"
     ## Add moonraker update manager entry
     ## Unattended
@@ -289,7 +289,7 @@ function install_crowsnest {
     ## add $USER to group video
     echo -en "Add User ${BASE_USER} to group 'video' ...\r"
     if [ "$(groups | grep -c video)" == "0" ]; then
-        sudo usermod -aG video "${BASE_USER}" > /dev/null
+        echo "mellow" | sudo -S usermod -aG video "${BASE_USER}" > /dev/null
         echo -e "Add User ${BASE_USER} to group 'video' ... [OK]"
     else
         echo -e "Add User ${BASE_USER} to group 'video' ... [SKIPPED]"
@@ -320,7 +320,7 @@ function build_apps {
     clone_ustreamer
     echo -e "Installing 'ustreamer' Dependencies ..."
     # shellcheck disable=2086
-    sudo apt install --yes --no-install-recommends ${CROWSNEST_USTREAMER_DEPS} > /dev/null
+    echo "mellow" | sudo -S apt install --yes --no-install-recommends ${CROWSNEST_USTREAMER_DEPS} > /dev/null
     echo -e "Installing 'ustreamer' Dependencies ... [OK]"
     pushd ${HOME_}/crowsnest/bin > /dev/null
     make all
@@ -331,8 +331,8 @@ function install_raspicam_fix {
     if [ -f /proc/device-tree/model ] &&
     grep -q "Raspberry" /proc/device-tree/model ; then
         echo -en "Applying Raspicam Fix ... \r"
-        sudo sh -c 'echo "bcm2835-v4l2" >> /etc/modules'
-        sudo cp file_templates/bcm2835-v4l2.conf /etc/modprobe.d/
+        echo "mellow" | sudo -S sh -c 'echo "bcm2835-v4l2" >> /etc/modules'
+        echo "mellow" | sudo -S cp file_templates/bcm2835-v4l2.conf /etc/modprobe.d/
         echo -e "Applying Raspicam Fix ... [OK]"
     else
         echo -e "This is not a Raspberry Pi!"
@@ -344,13 +344,13 @@ function enable_legacy_cam {
     local cfg
     cfg="/boot/config.txt"
     echo -en "Enable legacy camera stack ... \r"
-    sudo sed -i "s/camera_auto_detect=1/#camera_auto_detect=1/" "${cfg}"
+    echo "mellow" | sudo -S sed -i "s/camera_auto_detect=1/#camera_auto_detect=1/" "${cfg}"
     if [ "$(grep -c "start_x" "${cfg}")" == "0" ]; then
-        sudo crudini --set --inplace "${cfg}" all start_x 1 &> /dev/null
+        echo "mellow" | sudo -S crudini --set --inplace "${cfg}" all start_x 1 &> /dev/null
     fi
     if [ "$(grep -c "gpu_mem" "${cfg}")" == "0" ]; then
-        sudo crudini --set --inplace "${cfg}" pi4 gpu_mem 256 &> /dev/null
-        sudo crudini --set --inplace "${cfg}" all gpu_mem 128 &> /dev/null
+        echo "mellow" | sudo -S crudini --set --inplace "${cfg}" pi4 gpu_mem 256 &> /dev/null
+        echo "mellow" | sudo -S crudini --set --inplace "${cfg}" all gpu_mem 128 &> /dev/null
     fi
     echo -e "Enable legacy camera stack ... [OK]"
 }
@@ -375,9 +375,7 @@ if [ "${UNATTENDED}" != "true" ]; then
     detect_existing_webcamd
 fi
 echo -e "Running apt update first ..."
-sudo apt update <<EOF
-mellow
-EOF
+echo "mellow" | sudo -S apt update
 install_crowsnest
 build_apps
 if [ "${UNATTENDED}" != "true" ] &&
