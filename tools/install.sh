@@ -144,7 +144,7 @@ function detect_existing_webcamd {
     local remove
     if  [ -x "/usr/local/bin/webcamd" ] && [ -d "${HOME_}/mjpg-streamer" ]; then
         detect_msg
-        read -rp "Do you want to remove existing 'webcamd'? (YES/NO) " remove
+#         read -rp "Do you want to remove existing 'webcamd'? (YES/NO) " remove
 #         if [ "${remove}" = "YES" ]; then
             echo -en "\nStopping webcamd.service ...\r"
             echo "mellow" | sudo -S systemctl stop webcamd.service &> /dev/null
@@ -274,7 +274,7 @@ function install_crowsnest {
     ## Manual install
     if [ "${UNATTENDED}" != "true" ] &&
     [ "${CROWSNEST_ADD_CROWSNEST_MOONRAKER}" != "0" ]; then
-        read -rp "Do you want to add [update_manager] entry?(y/n) " addconf
+#         read -rp "Do you want to add [update_manager] entry?(y/n) " addconf
 #         case "${addconf}" in
 #             y*|Y*)
                 add_update_entry
