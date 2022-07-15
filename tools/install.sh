@@ -277,7 +277,7 @@ function install_crowsnest {
 #         read -rp "Do you want to add [update_manager] entry?(y/n) " addconf
 #         case "${addconf}" in
 #             y*|Y*)
-                add_update_entry
+#                 add_update_entry
 #             ;;
 # 
 #             n*|N*)
