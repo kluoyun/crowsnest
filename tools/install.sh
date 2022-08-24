@@ -264,16 +264,16 @@ function install_crowsnest {
     echo -e "Enable crowsnest.service on boot ... [OK]\r"
     ## Add moonraker update manager entry
     ## Unattended
-    if [ "${UNATTENDED}" == "true" ] &&
-    [ "${CROWSNEST_ADD_CROWSNEST_MOONRAKER}" == "1" ] &&
-    [ -f "${moonraker_conf}" ]; then
-        echo -en "Adding Crowsnest Update Manager entry to moonraker.conf ...\r"
-        add_update_entry
-        echo -e "Adding Crowsnest Update Manager entry to moonraker.conf ... [OK]"
-    fi
+#     if [ "${UNATTENDED}" == "true" ] &&
+#     [ "${CROWSNEST_ADD_CROWSNEST_MOONRAKER}" == "1" ] &&
+#     [ -f "${moonraker_conf}" ]; then
+#         echo -en "Adding Crowsnest Update Manager entry to moonraker.conf ...\r"
+#         add_update_entry
+#         echo -e "Adding Crowsnest Update Manager entry to moonraker.conf ... [OK]"
+#     fi
     ## Manual install
-    if [ "${UNATTENDED}" != "true" ] &&
-    [ "${CROWSNEST_ADD_CROWSNEST_MOONRAKER}" != "0" ]; then
+#    if [ "${UNATTENDED}" != "true" ] &&
+#    [ "${CROWSNEST_ADD_CROWSNEST_MOONRAKER}" != "0" ]; then
 #         read -rp "Do you want to add [update_manager] entry?(y/n) " addconf
 #         case "${addconf}" in
 #             y*|Y*)
@@ -284,7 +284,7 @@ function install_crowsnest {
 #                 echo -e "Adding Crowsnest Update Manager entry to moonraker.conf ... [SKIPPED]"
 #             ;;
 #         esac
-    fi
+#    fi
 
     ## add $USER to group video
     echo -en "Add User ${BASE_USER} to group 'video' ...\r"
