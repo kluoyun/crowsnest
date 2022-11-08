@@ -17,7 +17,7 @@ set -Ee
 # Global Vars
 BASE_USER=fly
 HOME_=/home/${BASE_USER}
-CROWSNEST_DEFAULT_CONF_DIR=${HOME_}/klipper_config
+CROWSNEST_DEFAULT_CONF_DIR=${HOME_}/printer_data/config
 TITLE="crowsnest - A Webcam Daemon for Raspberry Pi OS"
 
 ### Non root
