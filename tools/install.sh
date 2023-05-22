@@ -200,7 +200,7 @@ function install_crowsnest {
     template="${HOME_}/crowsnest/sample_configs/${CROWSNEST_DEFAULT_CONF}"
     servicefile="${HOME_}/crowsnest/file_templates/crowsnest.service"
     logrotatefile="${HOME_}/crowsnest/file_templates/logrotate_crowsnest"
-    moonraker_conf="${HOME_}/klipper_config/moonraker.conf"
+    moonraker_conf="${CROWSNEST_DEFAULT_CONF_DIR}/moonraker.conf"
     moonraker_update="${HOME_}/crowsnest/file_templates/moonraker_update.txt"
     ## helper func moonraker update_manager
     function add_update_entry {
@@ -241,9 +241,7 @@ function install_crowsnest {
     ## Copy crowsnest.service
     echo -en "Copying crowsnest.service file ...\r"
     echo "mellow" | sudo -S cp -rf "${servicefile}" /etc/systemd/system/crowsnest.service > /dev/null
-    if [ ! "${BASE_USER}" == "pi" ]; then
-        echo "mellow" | sudo -S sed -i 's|pi|'"${BASE_USER}"'|g' /etc/systemd/system/crowsnest.service
-    fi
+    
     echo -e "Copying crowsnest.service file ... [OK]\r"
     ## Copy logrotate
     echo -en "Linking logrotate file ...\r"
