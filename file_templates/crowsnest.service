@@ -20,7 +20,7 @@ StartLimitIntervalSec=180
 WantedBy=multi-user.target
 
 [Service]
-Environment=CROWSNEST_CONFIG=/home/pi/klipper_config/crowsnest.conf
+Environment=CROWSNEST_CONFIG=/home/fly/printer_data/config/crowsnest.conf
 Type=exec
 User=pi
 RemainAfterExit=Yes
